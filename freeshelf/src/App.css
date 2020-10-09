@@ -1,0 +1,13 @@
+*{
+  font-family: 'Gentium Book Basic', serif;
+  margin-left: 3px;
+  box-sizing: border-box;
+}
+.image{
+  height: 300px;
+  width: 300px;
+  margin: 14px;
+  border-radius: 25px;
+  box-shadow: 0px 8px 6px 0px gray;
+ 
+}
