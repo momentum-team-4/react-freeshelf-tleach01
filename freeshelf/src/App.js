@@ -3,48 +3,69 @@ import data from './books.json'
 import './App.css'
 
 class App extends React.Component {
-  constructor (props) {
-    super(props)
-    this.hideOrShow = this.hideOrShow.bind(this)
+  constructor () {
+    super()
     this.state = {
-      showContent: false
+      showContent: false,
+      selectedBooks: []
     }
+    this.hideOrShow = this.hideOrShow.bind(this)
   }
 
   hideOrShow (event) {
-    event.preventDefault()
-    this.setState({
-      showContent: false
-    })
+    if (this.state.selectedBooks.includes(parseInt(event.target.parentElement.id))) {
+      this.setState({
+        showContent: false,
+        selectedBooks: this.state.selectedBooks.filter(id => id !== parseInt(event.target.parentElement.id))
+      })
+    } else {
+      this.setState({
+        showContent: !this.state.selectedBooks.includes(parseInt(event.target.parentElement.id)),
+        selectedBooks: [...this.state.selectedBooks, parseInt(event.target.parentElement.id)]
+      })
+    }
   }
 
   render () {
-    const { showContent } = this.state
+    console.log(this.state)
     return (
       <div>
         <h1>Freeshelf</h1>
-        <link href='https://fonts.googleapis.com/css2?family=Gentium+Book+Basic&display=swap' rel='stylesheet' />
-        {data.map((bookDetail, index) => <div key={data.id} className='wholeBook'>
-          <div className='bookContent'>
-            <div>
-              <h1 className='title'>{bookDetail.title}</h1>
-              <img src={bookDetail.coverImageUrl} className='image' />
-              <p className='author'><strong>By: {bookDetail.author}</strong></p>
-              <p className='description'>{bookDetail.shortDescription}</p>
-              <div className='dropdownBox'>
-                {showContent === true ? <p>{bookDetail.dropdownBox}</p> : ''}
-                <button handleclick={this.toggleContent}>Read More</button>
-                <button handleclick={this.onhandleRemoveContentButton}>Read Less</button>
-                <p className='url'> <strong>URL: </strong>{bookDetail.url}</p>
-                <p className='publisher'><strong>Publisher: </strong>{bookDetail.publisher}</p>
-                <p className='publication'><strong>Publication Date: </strong>{bookDetail.publicationDate}</p>
-                <p className='fullDescrip'><strong>Full Description: </strong>{bookDetail.detailedDescription}</p>
-              </div>
-            </div>
-          </div>
 
-        </div>)}
+        {data.map(({
+          title,
+          author,
+          shortDescription,
+          url,
+          publisher,
+          publicationDate,
+          detailedDescription,
+          coverImageUrl
+        }, index
+        ) => {
+          return (<div key={index} id={index}>
 
+            
+              <h1 className='title'>{title}</h1>
+              <img src={coverImageUrl} className='image' />
+              <p className='author'><strong>By: {author}</strong></p>
+              <p className='description'>{shortDescription}</p>
+
+              <button onClick={(event) => this.hideOrShow(event)}> {this.state.showContent && this.state.selectedBooks.includes(index) ? 'Less Info' : 'More Info'}
+              </button>
+
+              {this.state.selectedBooks.includes(index) && (<div className='details'>
+                <p className='url'> <strong>URL: </strong>{url}</p>
+                <p className='publisher'><strong>Publisher: </strong>{publisher}</p>
+                <p className='publication'><strong>Publication Date: </strong>{publicationDate}</p>
+                <p className='fullDescrip'><strong>Full Description: </strong>{detailedDescription}</p>
+              </div>)
+
+              }
+
+          </div>)
+        }
+        )}
       </div>
     )
   }

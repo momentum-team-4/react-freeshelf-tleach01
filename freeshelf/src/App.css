@@ -9,5 +9,24 @@
   margin: 14px;
   border-radius: 25px;
   box-shadow: 0px 8px 6px 0px gray;
- 
+}
+
+button{
+  background-color: rgb(7, 206, 206);
+  box-shadow: 0px 8px 6px 0px gray;
+}
+
+button:hover{
+color: rgb(237, 109, 100);
+font-size: large;
+}
+
+button:active{
+  background-color: rgb(31, 245, 224);
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.title{
+  font-style: italic;
 }
